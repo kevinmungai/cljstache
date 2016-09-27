@@ -2,8 +2,8 @@ Cljstache
 =========
 {{ [mustache](http://mustache.github.com) }} templates for Clojure[Script].
 
-Compliant with the [Mustache spec](http://github.com/mustache/spec)
-, including lambdas (jvm only)
+Compliant with the [Mustache spec](http://github.com/mustache/spec),
+including lambdas (jvm only)
 
 Forked from [clostache](https://github.com/fhd/clostache) and updated to be compatible with ClojureScript.
 
