@@ -8,13 +8,12 @@ Compliant with the [Mustache spec](http://github.com/mustache/spec)
 Forked from [clostache](https://github.com/fhd/clostache) and updated to be compatible with ClojureScript.
 
 [![Build Status](https://travis-ci.org/fotoetienne/cljstache.svg?branch=master)](https://travis-ci.org/fotoetienne/cljstache)
-
 [![Clojars Project](https://img.shields.io/clojars/v/cljstache.svg)](https://clojars.org/cljstache)
 
 Usage
 -----
 
-To render a template, just pass template and binding to the render function:
+To render a template, just pass a template string and a map of data to `render`:
 
 ```clj
 (require '[cljstache.core :refer [render]])
@@ -30,7 +29,7 @@ On the JVM, you can also render a resource from the classpath like this:
 (render-resource "templates/hello.mustache" {:name "Michael"})
 ```
 
-Each function supports an optional third argument, containing partials (see below).
+Both of these functions support an optional third argument, containing partials (see below).
 
 Examples
 --------
