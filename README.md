@@ -1,9 +1,9 @@
 Cljstache
 =========
-Logic-less {{ [mustache](http://mustache.github.com) }} templates for Clojure[Script].
+{{ [mustache](http://mustache.github.com) }} templates for Clojure[Script].
 
 Compliant with the [Mustache spec](http://github.com/mustache/spec)
-, including lambdas.
+, including lambdas (jvm only)
 
 Forked from [clostache](https://github.com/fhd/clostache) and updated to be compatible with ClojureScript.
 
@@ -17,10 +17,10 @@ The easiest way to use Cljstache in your project is via
 
 Add to project.clj
 
-# TODO: clojars badge
 ```clj
-[cljstache "1.6.0-SNAPSHOT"]
+[cljstache "2.0.0-SNAPSHOT"]
 ```
+<!-- TODO: Add clojars badge -->
 
 This is how you use Cljstache:
 
@@ -374,13 +374,14 @@ git submodule update --init
 And run them against all supported Clojure versions:
 
 ```
-lein all test
+lein test-all
 ```
 
 Requirements
 ------------
 
 As steadyhash uses Clojure's reader conditionals, steadyhash is dependent on both Clojure 1.7 and Leiningen 2.5.2 or later.
+Java 8 or greater is required to run the clojurescript tests (using Nashorn.)
 
 License
 -------
