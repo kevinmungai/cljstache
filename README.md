@@ -9,25 +9,24 @@ Forked from [clostache](https://github.com/fhd/clostache) and updated to be comp
 
 [![Build Status](https://travis-ci.org/fotoetienne/cljstache.svg?branch=master)](https://travis-ci.org/fotoetienne/cljstache)
 
+[![Clojars Project](https://img.shields.io/clojars/v/cljstache.svg)](https://clojars.org/cljstache)
+
 Usage
 -----
 
-The easiest way to use Cljstache in your project is via
-[Clojars](http://clojars.org/fotoetienne/cljstache).
-
-[![Clojars Project](https://img.shields.io/clojars/v/cljstache.svg)](https://clojars.org/cljstache)
-
-This is how you use Cljstache:
+To render a template, just pass template and binding to the render function:
 
 ```clj
-(use 'cljstache.core)
+(require '[cljstache.core :refer [render]])
+
 (render "Hello, {{name}}!" {:name "Felix"})
 ```
 
-You can render a resource from the classpath like this:
+On the JVM, you can also render a resource from the classpath like this:
 
 ```clj
-(use 'cljstache.core)
+(require '[cljstache.core :refer [render-resource]])
+
 (render-resource "templates/hello.mustache" {:name "Michael"})
 ```
 
