@@ -15,12 +15,7 @@ Usage
 The easiest way to use Cljstache in your project is via
 [Clojars](http://clojars.org/fotoetienne/cljstache).
 
-Add to project.clj
-
-```clj
-[cljstache "2.0.0-SNAPSHOT"]
-```
-<!-- TODO: Add clojars badge -->
+[![Clojars Project](https://img.shields.io/clojars/v/cljstache.svg)](https://clojars.org/cljstache)
 
 This is how you use Cljstache:
 
