@@ -279,6 +279,93 @@ Output:
 Hello, Felix, Jenny!
 ```
 
+#### Using Partials as Includes
+
+You can use partials as "includes" to build up a document from other pieces.
+For example, when building a web page, you can have header and footer template
+files that are included in the main page template. This document describes one
+way to do that.
+
+In your project directory (let's call it "my-proj"), create a "resources"
+directory if you don't already have one. Then,
+
+```sh
+cd path/to/my-proj/resources
+mkdir templates
+cd templates
+touch header.mustache footer.mustache my-page.mustache
+```
+
+Make header.mustache look something like this:
+
+```html
+<!doctype html>
+<html>
+<head><title>{{my-title}}</title></head>
+<body>
+<p>header here!</p>
+```
+
+and footer.mustache look something like:
+
+```html
+<p>footer here!</p>
+</body>
+</html>
+```
+
+Edit my-page.mustache to contain:
+
+```html
+{{> header}}
+
+<h1>{{my-title}}</h1>
+
+<p>Learn about {{stuff}} here.</p>
+
+{{> footer}}
+```
+
+Now, in your source code (in a Compojure project, this might be
+my-proj/src/my_proj/handler.clj), in the `ns` macro's :require
+vector, add
+
+```clojure
+[clostache.parser :refer [render-resource]]
+[clojure.java.io :as io]
+```
+
+then create a `render-page` helper function:
+
+```clojure
+(defn render-page
+  "Pass in the template name (a string, sans its .mustache
+filename extension), the data for the template (a map), and a list of
+partials (keywords) corresponding to like-named template filenames."
+  [template data partials]
+  (render-resource
+    (str "templates/" template ".mustache")
+    data
+    (reduce (fn [accum pt] ;; "pt" is the name (as a keyword) of the partial.
+              (assoc accum pt (slurp (io/resource (str "templates/"
+                                                       (name pt)
+                                                       ".mustache")))))
+            {}
+            partials)))
+```
+
+(thanks to samflores for that idea ☺). You'd then call this function like so:
+
+```clojure
+(render-page "my-page"
+             {:my-title "My Title" :stuff "giraffes"}
+             [:header :footer]))
+```
+
+Note that the value for :my-title which you pass in makes its way
+not only into the my-page.mustache template, but also down into
+the included header.mustache.
+
 ### Set delimiters ###
 
 You don't have to use mustaches, you can change the delimiters to
