@@ -455,6 +455,14 @@
         (recur (str before (render-section section data partials) after) data
                partials)))))
 
+(defn tags
+  "Returns set of all tags in template"
+  [template]
+  (let [[^String template data] (preprocess template {} {})
+        matches (re-seq #"\{\{(\{|\&|\>|)\s*(.*?)\s*\}{2,3}" template)
+        tags (map (comp keyword last) matches)]
+    (set tags)))
+
 (defn render
   "Renders the template with the data and, if supplied, partials."
   ([template]
