@@ -167,6 +167,10 @@
   (is (= "Hello, " (render "Hello, {{#condition}}Felix{{/condition}}"
                            {:condition false}))))
 
+(deftest test-render-atomic-string
+  (is (= "Hello, Atomic string" (render "Hello{{#string}}, {{string}}{{/string}}"
+                           {:string "Atomic string"}))))
+
 (deftest test-render-inverted-empty-list
   (is (= "Empty" (render "{{^things}}Empty{{/things}}" {:things []}))))
 
