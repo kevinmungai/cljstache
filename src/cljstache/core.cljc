@@ -430,7 +430,8 @@
             (if (fn? result)
               (result #(render-template % data partials))
               result))
-          (let [section-data (cond (sequential? section-data) section-data
+          (let [section-data (cond (string? section-data) [{}]
+                                   (sequential? section-data) section-data
                                    (map? section-data) [section-data]
                                    (seqable? section-data) (seq section-data)
                                    :else [{}])
