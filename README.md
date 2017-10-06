@@ -487,6 +487,7 @@ Contributors
 ------------
 
 * [Felix H. Dahlke](https://github.com/fhd) (Original Author)
+* [Stephen Spalding](https://github.com/fotoetienne) (ClojureScript port)
 * [Rory Geoghegan](https://github.com/rgeoghegan)
 * [Santtu Lintervo](https://github.com/santervo)
 * [Pierre-Alexandre St-Jean](https://github.com/pastjean)
@@ -498,3 +499,4 @@ Contributors
 * [Ryan Cole](https://github.com/ryancole)
 * [Simon Lawrence](https://github.com/simonl2002)
 * [Darrell Hamilton](https://github.com/zeroem)
+* [Mike Konkov](https://github.com/wambat)
