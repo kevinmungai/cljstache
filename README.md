@@ -460,7 +460,7 @@ lein test-all
 Requirements
 ------------
 
-As steadyhash uses Clojure's reader conditionals, steadyhash is dependent on both Clojure 1.7 and Leiningen 2.5.2 or later.
+As cljstache uses Clojure's reader conditionals, cljstache is dependent on both Clojure 1.7 and Leiningen 2.5.2 or later.
 Java 8 or greater is required to run the clojurescript tests (using Nashorn.)
 
 License
