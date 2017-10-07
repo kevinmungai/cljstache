@@ -10,18 +10,17 @@
   :dependencies []
 
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]
-                                  [org.clojure/data.json "0.1.2"]
-                                  [jline/jline "0.9.94"]]
+                                  [org.clojure/data.json "0.2.6"]]
                    :resource-paths ["test-resources"]}
              :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
-             :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]]}
+             :1.9 {:dependencies [[org.clojure/clojure "1.9.0-beta2"]]}
              :cljs1.8 {:dependencies [[org.clojure/clojurescript "1.8.51"]]
-                       :plugins [[lein-cljsbuild "1.1.3"]
+                       :plugins [[lein-cljsbuild "1.1.7"]
                                  [lein-doo "0.1.6"]]}
              :cljs {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]
                                    [org.clojure/clojurescript "1.9.229"]]
-                       :plugins [[lein-cljsbuild "1.1.3"]
+                       :plugins [[lein-cljsbuild "1.1.7"]
                                  [lein-doo "0.1.6"]]}}
 
   :aliases {"with-clj" ["with-profile" "dev:dev,1.7:dev,1.8:dev,1.9"]
