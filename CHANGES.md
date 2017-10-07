@@ -1,3 +1,10 @@
+2.0.1 (2017-10-07)
+============
+* Fixed behavior of conditionals to treat strings as atomic
+* Update mustache spec to v1.1.3
+* Add tags function (Lists all of the tags in a template)
+* Update dev/test dependencies
+
 2.0.0 (2016)
 ============
 * Rename to cljstache
