@@ -244,3 +244,9 @@
   (is (= (render "{{ a }}" {:a "value"}) "value"))
   (is (= (render "{{a.b}}" {:a {:b "value"}}) "value"))
   (is (= (render "{{ a.b }}" {:a {:b "value"}}) "value")))
+
+(deftest test-ignore-invalid-tag
+  (is (= (render "{{#a}}" {:a ["value"]}) ""))
+  (is (= (render "{{/a}}" {:a ["value"]}) ""))
+  (is (= (render "{{#a" {:a ["value"]}) "{{#a"))
+  (is (= (render "{{#a}}{{/" {:a ["value"]}) "{{/")))
