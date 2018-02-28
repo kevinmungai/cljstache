@@ -86,7 +86,12 @@
 (deftest process-set-delimiters-test
   (testing "Correctly replaces custom delimiters"
     (is (= ["Hello, {{name}}" {:name "Felix"}]
-           (#'cs/process-set-delimiters "{{=<% %>=}}Hello, <%name%>" {:name "Felix"})))))
+           (#'cs/process-set-delimiters "{{=<% %>=}}Hello, <%name%>" {:name "Felix"}))))
+
+  (testing "Do not replaces other delimiters"
+    (is (= ["{{greeting}}, {{{names}}}" {:greeting "Hello" :name "Felix&Jenny"}]
+           (#'cs/process-set-delimiters "{{=<% %>=}}<%greeting%>, {{{names}}}"
+                                        {:greeting "Hello" :name "Felix&Jenny"})))))
 
 ;; Render Tests
 
@@ -196,6 +201,25 @@
 (deftest test-render-with-delimiters-changed-twice
   (is (= "Hello, Felix" (render "{{=[ ]=}}[greeting], [=<% %>=]<%name%>"
                                 {:greeting "Hello" :name "Felix"}))))
+
+(deftest test-render-twice-with-different-delimiters
+  (is (= "Hello, Felix&Jenny!"
+         (let [data {:greeting "Hello" :names "Felix&Jenny"}]
+           (-> "{{={% %}=}}{%greeting%}, {{&names}}!"
+               (render data)
+               (render data)))))
+
+  (is (= "Hello, Felix&Jenny!"
+         (let [data {:greeting "Hello" :names "Felix&Jenny"}]
+           (-> "{{={% %}=}}{%greeting%}, {{{names}}}!"
+               (render data)
+               (render data)))))
+
+  (is (= "Hello, Felix&Jenny!"
+         (let [data {:greeting "Hello" :names "Felix&Jenny"}]
+           (-> "{{greeting}}, {{{names}}}!"
+               (render data)
+               (render data))))))
 
 (deftest test-render-tag-with-dotted-name-like-section
   (is (= "Hello, Felix" (render "Hello, {{felix.name}}"

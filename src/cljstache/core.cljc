@@ -170,11 +170,20 @@
         (when-let [match-result (matcher-find matcher offset)]
           (let [{:keys [match-start match-end]} match-result
                 match (subs s match-start match-end)]
-            (if (and custom-delim? (= "{{" (subs match 0 2)))
+            (cond
+              (and custom-delim? (= "{{{" (subs match 0 3)))
+              (when-let [tag (re-find #"\{\{\{(.*?)\}\}\}" match)]
+                (sb-replace builder match-start match-end
+                            (str "\\{\\{\\{" (second tag) "\\}\\}\\}"))
+                (recur (int match-end)))
+
+              (and custom-delim? (= "{{" (subs match 0 2)))
               (when-let [tag (re-find #"\{\{(.*?)\}\}" match)]
                 (sb-replace builder match-start match-end
                             (str "\\{\\{" (second tag) "\\}\\}"))
                 (recur (int match-end)))
+
+              :else
               (if-let [delim-change
                        (find-custom-delimiters
                         @open-delim @close-delim match)]
