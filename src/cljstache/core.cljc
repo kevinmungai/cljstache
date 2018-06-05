@@ -265,14 +265,14 @@
 (defn- find-section-start-tag
   "Find the next section start tag, starting to search at index."
   [^String template index]
-  (next-index template #"\{\{[#\^]" index))
+  (next-index template #"\{\{[#\^][^\}]*\}\}" index))
 
 (defn- find-section-end-tag
   "Find the matching end tag for a section at the specified level,
    starting to search at index."
   [^String template ^long index ^long level]
   (let [next-start (find-section-start-tag template index)
-        next-end (.indexOf ^String template "{{/" index)]
+        next-end (next-index template #"\{\{/[^\}]*\}\}" index)]
     (if (= next-end -1)
       -1
       (if (and (not= next-start -1) (< next-start next-end))
