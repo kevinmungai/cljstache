@@ -14,17 +14,15 @@
                    :resource-paths ["test-resources"]}
              :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
-             :1.9 {:dependencies [[org.clojure/clojure "1.9.0-beta2"]]}
-             :cljs1.8 {:dependencies [[org.clojure/clojurescript "1.8.51"]]
+             :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
+             :1.10 {:dependencies [[org.clojure/clojure "1.10.1"]]}
+             :cljs {:dependencies [[org.clojure/clojure "1.10.1"]
+                                   [org.clojure/clojurescript "1.10.520"]]
                        :plugins [[lein-cljsbuild "1.1.7"]
-                                 [lein-doo "0.1.6"]]}
-             :cljs {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]
-                                   [org.clojure/clojurescript "1.9.229"]]
-                       :plugins [[lein-cljsbuild "1.1.7"]
-                                 [lein-doo "0.1.6"]]}}
+                                 [lein-doo "0.1.10"]]}}
 
   :aliases {"with-clj" ["with-profile" "dev:dev,1.7:dev,1.8:dev,1.9"]
-            "with-cljs" ["with-profile" "cljs:cljs1.8"]
+            "with-cljs" ["with-profile" "cljs"]
             "test-clj" ["with-clj" "test"]
             "test-cljs" ["with-cljs" "doo" "nashorn" "test" "once"]
             "test-all" ["do" "clean," "test-clj," "test-cljs"]
