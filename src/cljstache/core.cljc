@@ -330,11 +330,12 @@
                                              (render-template
                                               (var-value)
                                               (dissoc data var-name)
-                                              partials)
+                                              partials
+                                              false)
                                              var-value)
                                  var-value (str var-value)]
                              (cond (= var-type "") (escape-html var-value)
-                                   (= var-type ">") (render-template (var-k partials) data partials)
+                                   (= var-type ">") (render-template (var-k partials) data partials false)
                                    :else var-value)))))
 
 (defn- join-standalone-delimiter-tags
@@ -415,10 +416,17 @@
       [(str eol-start "([ \t]*\\{\\{>\\s*[^\\}]*\\s*\\}\\})" eol-end) "$1$2"
        true]])))
 
+(defn- delimiter-preprocess
+  [template data]
+  (let [template (join-standalone-delimiter-tags template)
+        [template data] (process-set-delimiters template data)]
+    [template data]))
+
 (defn- preprocess
   "Preprocesses template and data (e.g. removing comments)."
   [template data partials]
-  (let [template (join-standalone-delimiter-tags template)
+  (let [[template data] (delimiter-preprocess template data)
+        template (join-standalone-delimiter-tags template)
         [template data] (process-set-delimiters template data)
         template (join-standalone-tags template)
         template (remove-comments template)
@@ -437,7 +445,7 @@
         (if (fn? section-data)
           (let [result (section-data (:body section))]
             (if (fn? result)
-              (result #(render-template % data partials))
+              (result #(render-template % data partials false))
               result))
           (let [section-data (cond (string? section-data) [{}]
                                    (sequential? section-data) section-data
@@ -450,20 +458,23 @@
                                     section-data))
                 section-data (map #(conj data %) section-data)]
             (map-str (fn [m]
-                       (render-template (:body section) m partials))
+                       (render-template (:body section) m partials false))
                      section-data)))))))
 
 (defn- render-template
   "Renders the template with the data and partials."
-  [^String template data partials]
-  (let [[^String template data] (preprocess template data partials)
+  [^String template data partials skip-delimiter-preprocess?]
+  (let [[^String template data] (if skip-delimiter-preprocess?
+                                  [template data]
+                                  (delimiter-preprocess template data ))
         ^String section (extract-section template)]
     (if (nil? section)
       (replace-variables template data partials)
       (let [before (subs template 0 (:start section))
             after (subs template (:end section))]
         (recur (str before (render-section section data partials) after) data
-               partials)))))
+               partials
+               false)))))
 
 (defn tags
   "Returns set of all tags in template"
@@ -480,9 +491,10 @@
   ([template data]
      (render template data {}))
   ([template data partials]
-     (replace-all (render-template template data partials)
-                  [["\\\\\\{\\\\\\{" "{{"]
-                   ["\\\\\\}\\\\\\}" "}}"]])))
+     (let [[template data] (preprocess template data partials)]
+       (replace-all (render-template template data partials true)
+                    [["\\\\\\{\\\\\\{" "{{"]
+                     ["\\\\\\}\\\\\\}" "}}"]]))))
 
 #?(:clj
    (defn render-resource

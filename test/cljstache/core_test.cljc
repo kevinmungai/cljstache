@@ -225,6 +225,16 @@
   (is (= "Hello, Felix" (render "Hello, {{felix.name}}"
                                 {:felix {:name "Felix"}}))))
 
+(deftest test-render-multiple-sections
+  (is (= "Hello\n\nFelix\n\nFelix\n\n!"
+         (render "Hello\n\n{{#felix}}{{name}}{{/felix}}\n\n{{#felix}}{{name}}{{/felix}}\n\n!" {:felix {:name "Felix"}})))
+  (is (= "Hello\n\nFelix\n\nFelix\n\n!"
+         (render "Hello\n\n{{#felix}}\n{{name}}\n{{/felix}}\n\n{{#felix}}{{name}}{{/felix}}\n\n!" {:felix {:name "Felix"}})))
+  (is (= "Hello\n\nFelix\n\nFelix\n\n!"
+         (render "Hello\n\n{{#felix}}{{name}}{{/felix}}\n\n{{#felix}}\n{{name}}\n{{/felix}}\n\n!" {:felix {:name "Felix"}})))
+  (is (= "Hello\n\nFelix\n\nFelix\n\n!"
+         (render "Hello\n\n{{#felix}}\n{{name}}\n{{/felix}}\n\n{{#felix}}\n{{name}}\n{{/felix}}\n\n!" {:felix {:name "Felix"}}))))
+
 (deftest test-render-lambda
   (is (= "Hello, Felix" (render "Hello, {{name}}"
                                 {:name (fn [] "Felix")}))))
