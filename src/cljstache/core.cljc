@@ -11,11 +11,11 @@
 
 ;; clj < 1.9 support
 #?(:clj
-   (def ^Boolean seqable?
+   (def ^Boolean cljstache-seqable?
      "Returns true if (seq x) will succeed, false otherwise.
       Included in clojure core from v1.9"
-     (when (-> "seqable?" symbol resolve)
-       seqable?
+     (when (-> "cljstache-seqable?" symbol resolve)
+       cljstache-seqable?
        (fn [x]
          (or (seq? x)
              (instance? clojure.lang.Seqable x)
@@ -438,7 +438,7 @@
   [section data partials]
   (let [section-data ((keyword (:name section)) data)]
     (if (:inverted section)
-      (if (or (and (seqable? section-data) (empty? section-data))
+      (if (or (and (cljstache-seqable? section-data) (empty? section-data))
               (not section-data))
         (:body section))
       (if section-data
@@ -450,7 +450,7 @@
           (let [section-data (cond (string? section-data) [{}]
                                    (sequential? section-data) section-data
                                    (map? section-data) [section-data]
-                                   (seqable? section-data) (seq section-data)
+                                   (cljstache-seqable? section-data) (seq section-data)
                                    :else [{}])
                 section-data (if (map? (first section-data))
                                section-data
