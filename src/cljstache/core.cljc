@@ -1,6 +1,6 @@
 (ns cljstache.core
   "A parser for mustache templates."
-  #?(:clj (:refer-clojure :exclude (seqable?)))
+;;  #?(:clj (:refer-clojure :exclude (seqable?)))
   (:require #?(:clj [clojure.java.io :as io])
             [clojure.string :as str :refer [split]]))
 
